@@ -78,25 +78,25 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                         s = std::string(target) + std::string(path) + pieces[1] + pieces[0];
                         std::string dir = std::string(target) + std::string(path) + pieces[1];
                         strcpy(header.file_name, s.c_str());
-                        printf("new_file: %s\n", s.c_str());
+                        //printf("new_file: %s\n", s.c_str());
                         try
                         {
                             mkdir(dir.c_str(), S_IRWXU);
                         }
                         catch (...)
                         {
-                            printf("e%s%d\n", pieces[1].c_str(), errno);
+                            //printf("e%s%d\n", pieces[1].c_str(), errno);
                             assert(errno == EEXIST);
                         }
                         try
                         {
-                            printf("Creating %s\n", header.file_name);
+                            //printf("Creating %s\n", header.file_name);
                             file_handle = creat(header.file_name, S_IRUSR | S_IWUSR);
                             assert(file_handle != -1);
                         }
                         catch (...)
                         {
-                            printf("e%s%d\n", header.file_name, errno);
+                            //printf("e%s%d\n", header.file_name, errno);
                             assert(errno == EEXIST);
                         }
                         break;
@@ -114,25 +114,25 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                         s = std::string(target) +std::string(path) + pieces[1] + pieces[0];
                         std::string dir = std::string(target) +std::string(path) + pieces[1];
                         strcpy(header.file_name, s.c_str());
-                        printf("new_file: %s\n", s.c_str());
+                        //printf("new_file: %s\n", s.c_str());
                         try
                         {
                             mkdir(dir.c_str(), S_IRWXU);
                         }
                         catch (...)
                         {
-                            printf("e%s%d\n", pieces[1].c_str(), errno);
+                            //printf("e%s%d\n", pieces[1].c_str(), errno);
                             assert(errno == EEXIST);
                         }
                         try
                         {
-                            printf("Creating %s\n", header.file_name);
+                            //printf("Creating %s\n", header.file_name);
                             file_handle = creat(header.file_name, S_IRUSR | S_IWUSR);
                             assert(file_handle != -1);
                         }
                         catch (...)
                         {
-                            printf("e%s%d\n", header.file_name, errno);
+                            //printf("e%s%d\n", header.file_name, errno);
                             assert(errno == EEXIST);
                         }
                         break;
@@ -143,22 +143,22 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                         char path[] = "/";
                         s = std::string(target) +std::string(path) + std::string(file);
                         strcpy(header.file_name, s.c_str());
-                        printf("new_file: %s\n", s.c_str());
+                        //printf("new_file: %s\n", s.c_str());
                         try
                         {
-                            printf("Creating %s\n", header.file_name);
+                            //printf("Creating %s\n", header.file_name);
                             file_handle = creat(header.file_name, S_IRUSR | S_IWUSR);
                             assert(file_handle != -1);
                         }
                         catch (...)
                         {
-                            printf("e%s%d\n", header.file_name, errno);
+                            //printf("e%s%d\n", header.file_name, errno);
                             assert(errno == EEXIST);
                         }
                         break;
                     }
                     }
-                    printf("Creating %s\n", header.file_name);
+                    //printf("Creating %s\n", header.file_name);
                 }
             }
 
@@ -175,7 +175,7 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
 
         if (file_handle != -1 && result == TAR_ENTRY_END)
         {
-            printf("Closing %s\n", header.file_name);
+            //printf("Closing %s\n", header.file_name);
             assert(close(file_handle) == 0);
             file_handle = -1;
         }
