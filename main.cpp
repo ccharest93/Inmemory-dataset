@@ -27,6 +27,7 @@ int file_handle = -1;
 char out[1000000];
 char out2[100000];
 int flag_filename;
+char target[100];
 void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const Byte *data, size_t size)
 {
     stream.next_in = data;
@@ -67,15 +68,15 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                     case 0:
                     {
                         char *file = header.file_name;
-                        char path[] = "val/";
+                        char path[] = "/";
                         std::string pieces[2];
                         char *piece;
                         int i = 0;
                         s = std::string(file);
                         pieces[0] = s.substr(0, s.length() - 15) + ".JPEG";
                         pieces[1] = s.substr(s.length() - 14, 9) + "/";
-                        s = std::string(path) + pieces[1] + pieces[0];
-                        std::string dir = std::string(path) + pieces[1];
+                        s = std::string(target) + std::string(path) + pieces[1] + pieces[0];
+                        std::string dir = std::string(target) + std::string(path) + pieces[1];
                         strcpy(header.file_name, s.c_str());
                         printf("new_file: %s\n", s.c_str());
                         try
@@ -103,15 +104,15 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                     case 1:
                     {
                         char *file = header.file_name;
-                        char path[] = "train/";
+                        char path[] = "/";
                         std::string pieces[2];
                         char *piece;
                         int i = 0;
                         s = std::string(file);
                         pieces[0] = s.substr(0, s.length() - 15) + ".JPEG";
                         pieces[1] = s.substr(0, 9) + "/";
-                        s = std::string(path) + pieces[1] + pieces[0];
-                        std::string dir = std::string(path) + pieces[1];
+                        s = std::string(target) +std::string(path) + pieces[1] + pieces[0];
+                        std::string dir = std::string(target) +std::string(path) + pieces[1];
                         strcpy(header.file_name, s.c_str());
                         printf("new_file: %s\n", s.c_str());
                         try
@@ -139,8 +140,8 @@ void one_chunk(tar_stream &stream, tar_header &header, int &file_handle, const B
                     case 2:
                     {
                         char *file = header.file_name;
-                        char path[] = "test/";
-                        s = std::string(path) + std::string(file);
+                        char path[] = "/";
+                        s = std::string(target) +std::string(path) + std::string(file);
                         strcpy(header.file_name, s.c_str());
                         printf("new_file: %s\n", s.c_str());
                         try
@@ -202,11 +203,12 @@ size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
 int main(int argc, char **argv)
 {
     ////
-    if (argc != 4)
+    if (argc != 5)
     {
-        printf("Usage: %s <input_trace_filename> <processing case> \n", argv[0]);
+        printf("Usage: %s <input_trace_filename> <processing case> <hf token> <output dir> \n", argv[0]);
         return 1;
     }
+    strcpy(target, argv[4]);
     flag_filename = atoi(argv[2]);
     if (flag_filename == 0)
     {
@@ -214,7 +216,8 @@ int main(int argc, char **argv)
         // make val directory
         try
         {
-            mkdir("./val", S_IRWXU);
+
+            mkdir(strcat(target,"/val"), S_IRWXU);
         }
         catch (...)
         {
@@ -227,11 +230,11 @@ int main(int argc, char **argv)
         printf("Processing training set\n");
         try
         {
-            mkdir("./train", S_IRWXU);
+            mkdir(strcat(target,"/train"), S_IRWXU);
         }
         catch (...)
         {
-            printf("e%s%d\n", "./val", errno);
+            printf("e%s%d\n", "./train", errno);
             assert(errno == EEXIST);
         }
     }
@@ -240,11 +243,11 @@ int main(int argc, char **argv)
         printf("Processing test set\n");
         try
         {
-            mkdir("./test", S_IRWXU);
+            mkdir(strcat(target,"/test"), S_IRWXU);
         }
         catch (...)
         {
-            printf("e%s%d\n", "./val", errno);
+            printf("e%s%d\n", "./test", errno);
             assert(errno == EEXIST);
         }
     }
