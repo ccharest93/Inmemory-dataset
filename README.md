@@ -11,7 +11,7 @@ I have a container image for this program [] along with YAML job declarations to
 ```bash
 cd Inmemory-dataset 
 git clone https://github.com/ccharest93/tarlib.git 
-# now follow instruction on repo to build tarlib 
+# now follow instruction on tarlib repo to build tarlib 
 mkdir build && cd build 
 cmake .. 
 make
