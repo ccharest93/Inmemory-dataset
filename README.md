@@ -12,7 +12,7 @@ git clone https://github.com/ccharest93/tarlib.git \
 // follow instruction on repo to build tarlib \
 mkdir build && cd build \
 cmake .. \
-make \
+make 
 
 # Usage
 ./dataset-ingress-dinov2 <input_trace_filenmae> <processing case> <hf_token> <output_dir>
