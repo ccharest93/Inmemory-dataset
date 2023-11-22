@@ -1,4 +1,4 @@
-# Inmemory-dataset
+# dataset-dinov2
 
 This program is meant to perform the download, decompression, unarchiving of the Imagenet1k dataset as a piped process using a memory buffer. \
 For now it only works with the required filestructure requirements of https://github.com/facebookresearch/dinov2#data-preparation but could be extended to work with any filestructure requirements.
@@ -19,5 +19,5 @@ make
 
 # Usage
 ```bash
-./dataset-ingress-dinov2 <input_trace_filenmae> <processing case> <hf_token> <output_dir>
+./dataset-dinov2 <input_trace_filenmae> <processing case> <hf_token> <output_dir>
 ```
